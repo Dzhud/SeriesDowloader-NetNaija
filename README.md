@@ -26,3 +26,5 @@ browser = webdriver.Chrome(options=chrome_options, executable_path= ' ')
 
 # Executes the code
 `initializer.enable_download_headless(browser, download_dir, executable_path_for_chrome)`
+# Licence
+This project is licensed under the MIT license - see the [LICENCE.txt](https://github.com/Dzhud/SeriesDowloader-NetNaija/blob/main/LICENSE.txt) for details.
