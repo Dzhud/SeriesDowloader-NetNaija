@@ -11,11 +11,14 @@ __author__ = 'Dzhud'
 class SeriesDLerforNetNaija:
 
     def inputURL(self, url):
-        self.url = url
-        requestSeries = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-        openSeriesPage = urlopen(requestSeries)
-        soupy = BeautifulSoup(openSeriesPage, "html.parser")
-        return soupy
+        try:
+            self.url = url
+            requestSeries = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+            openSeriesPage = urlopen(requestSeries)
+            soupy = BeautifulSoup(openSeriesPage, "html.parser")
+            return soupy
+        except urllib.error.URLError:
+            print('Ensure your PC is conencted to the internet')
 
     def getSeriesDLLink(self):
         prefix = 'https://www.thenetnaija.com'
@@ -55,20 +58,26 @@ class SeriesDLerforNetNaija:
         browser.get(SeriesDLerforNetNaija.getSRTDLLink(self))
         srtDL = browser.find_element_by_xpath("//*[@id='action-buttons']/button")
         browser.execute_script("arguments[0].click();", srtDL)
+        # If the above doesn't get the video's SRT, this should.
+        srtDL.click()
 
         browser.get(SeriesDLerforNetNaija.getSeriesDLLink(self))
         videoDL = browser.find_element_by_xpath("//*[@id='action-buttons']/button")
         videoDL.click()
 
 initializer = SeriesDLerforNetNaija()
-initializer.inputURL('https://www.thenetnaija.com/videos/series/14277-tom-and-jerry-in-new-york/season-1/episode-2')
+# url pattern like this 'https://www.thenetnaija.com/videos/series/14277-tom-and-jerry-in-new-york/season-1/episode-2'
+initializer.inputURL('')
 initializer.getSRTDLLink()
 initializer.getSeriesDLLink()
 chrome_options = Options()
-browser = webdriver.Chrome(options=chrome_options, executable_path=r"C:\\Program Files\\ChromeDriver for Selenium\\chromedriver.exe")
-download_dir = r"C:\Users\Priceless\Documents\Programming Projects\showDLer\netNaijaDLer"
-executable_path_for_chrome = r"C:\\Program Files\\ChromeDriver for Selenium\\chromedriver.exe" 
-
+# Chromdriver's executable_path on your PC similar to this r'C:\\Program Files\\ChromeDriver for Selenium\\chromedriver.exe'
+browser = webdriver.Chrome(options=chrome_options, executable_path='')
+# Preferred download directory
+download_dir = ''
+# Chromdriver's executable_path on your PC
+executable_path_for_chrome = ''
+# Executes download
 initializer.enable_download_headless(browser, download_dir, executable_path_for_chrome)
                 
 
